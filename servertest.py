@@ -159,7 +159,7 @@ def searchForCity(cityName = "NoCity"):
     print("Client Requested for City " + cityName)
     if cityName == "NoCity":
         return "No City Entered"#.encode('ascii')
-    elif os.path.isfile('./reports/'+ cityName):
+    elif os.path.isfile('./reports/'+ cityName) or os.path.isfile('./reports/'+ cityName + '.txt'):
         readCityFile(cityName)
         return formattedData(cityName)#.encode('ascii')
     else:

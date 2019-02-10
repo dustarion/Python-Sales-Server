@@ -1,13 +1,31 @@
-import socket
-import datetime
+# +---------------------------------------------------------------+
+# | City Summary Client                                           |
+# +---------------+-----------------------------------------------+
+# | Class         | DISM/FT/1A/22                                 |
+# +---------------+-----------------------------------------------+
+# | Student ID    | P1804317                                      |
+# +---------------+-----------------------------------------------+
+# | Name          | Ng Wen Jie Dalton Ng                          |
+# +---------------+-----------------------------------------------+
+# | Assignment    | ST2411 Python Assignment 2                    |
+# +---------------+-----------------------------------------------+
+# | Date Written  | Sun Feb 10 2019                               |
+# +---------------+-----------------------------------------------+
+
+import socket, datetime
+
+
 
 def printWelcomeMessage():
     print ("\nWelcome to City Summary Client")
 
 def printInstructions():
-    print ("Instructions:")
-    print ("send 'q' at any time to quit")
-    print ("send 'x' at any time to quit and also stop the server")
+    print ("+--------------+")
+    print ("| INSTRUCTIONS |")
+    print ("+--------------+------------------------------------------------+")
+    print ("| Send 'q' at any time to quit.                                 |")
+    print ("| Send 'x' at any time to quit and also stop the server.        |")
+    print ("+---------------------------------------------------------------+")
 
 def printCurrentTimeStamp():
     print(datetime.datetime.now().ctime())
@@ -26,6 +44,7 @@ printWelcomeMessage()
 clientsocket = getnewsocket()
 host = "localhost"
 try:
+    # Attempt Connection
     clientsocket.connect((host, 8089))
 except ConnectionRefusedError:
     print('Unable to establish a connection with the server.')
@@ -33,9 +52,10 @@ except ConnectionRefusedError:
 except:
     exitNow = True
     print('An error occurred.')
-# Catch ConnectionRefusedError: [Errno 61] Connection refused
 
+# Check if client should terminate
 if not exitNow:
+    # Should not Terminate
     # Print Instructions for User
     printInstructions()
 

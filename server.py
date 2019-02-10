@@ -1,30 +1,41 @@
-print ("City Server Python") #Remove Later
+# +---------------------------------------------------------------+
+# | City Summary Server                                           |
+# +---------------+-----------------------------------------------+
+# | Class         | DISM/FT/1A/22                                 |
+# +---------------+-----------------------------------------------+
+# | Student ID    | P1804317                                      |
+# +---------------+-----------------------------------------------+
+# | Name          | Ng Wen Jie Dalton Ng                          |
+# +---------------+-----------------------------------------------+
+# | Assignment    | ST2411 Python Assignment 2                    |
+# +---------------+-----------------------------------------------+
+# | Date Written  | Sun Feb 10 2019                               |
+# +---------------+-----------------------------------------------+
 
-import socket
-import os
+import socket, os, datetime
 from decimal import Decimal
 
 
-#  ______   _______  _______  _______ 
-# |      | |   _   ||       ||   _   |
-# |  _    ||  |_|  ||_     _||  |_|  |
-# | | |   ||       |  |   |  |       |
-# | |_|   ||       |  |   |  |       |
-# |       ||   _   |  |   |  |   _   |
-# |______| |__| |__|  |___|  |__| |__|
 
+# -----------------------------------------------------------------------
 # Data Section
+# -----------------------------------------------------------------------
+
 
 # Classes
 class itemCategory:
   def __init__(self, name, totalSales):
     self.name = name
     self.totalSales = totalSales
-# ------------------------------------
+
 
 # Global Variables
 itemCategoryList = []
 totalSales = 0
+
+
+def printCurrentTimeStamp():
+    print(datetime.datetime.now().ctime())
 
 # Returns the number of Item Categories
 def icCount():
@@ -84,7 +95,6 @@ def top3Bottom3():
         elif ic.totalSales < icRank[3].totalSales:
             icRank[3] = ic
 
-    # ------------------------------------
     return icRank
 
 # Use this to turn the data in itemCategoryList into a string that can be sent to the client.
@@ -127,15 +137,11 @@ def formattedData(cityName):
     returnData = '\n'.join((returnData))
     return returnData
 
-#Top Three Item Categories\n=======================================================================\n
-
 
 # Processes a line from the city file into an item category.
 def processCityLine(line):
     # Make the line into an array of strings based on the seperator \t (TAB)
     line = line.split('\t')
-
-    # Check if Line is Correct Format Here ---------------------------------------------------------
 
     # Format of a standard entry is as follows:
     # 2012-12-31    17:53   Atlanta Books   456.66  Cash
@@ -163,12 +169,9 @@ def readCityFile(cityName):
             global totalSales # Initialise totalSales so python knows its not local
             totalSales += ic.totalSales # Add to the total sales
             addItemCategory(ic)
-    # ----------------------------
 
     # All done, close the file!
     file.close()
-
-# --------------------------------
 
 
 def searchForCity(cityName = "NoCity"):
@@ -179,16 +182,21 @@ def searchForCity(cityName = "NoCity"):
     elif os.path.isfile('./reports/'+ cityName):
         readCityFile(cityName)
         return formattedData(cityName)
+    elif os.path.isfile('./reports/'+ cityName + '.txt'):
+        readCityFile(cityName+'.txt')
+        return formattedData(cityName)
     else:
         return "nocity"
 
-#  __    _  _______  _______  _     _  _______  ______    ___   _ 
-# |  |  | ||       ||       || | _ | ||       ||    _ |  |   | | |
-# |   |_| ||    ___||_     _|| || || ||   _   ||   | ||  |   |_| |
-# |       ||   |___   |   |  |       ||  | |  ||   |_||_ |      _|
-# |  _    ||    ___|  |   |  |       ||  |_|  ||    __  ||     |_ 
-# | | |   ||   |___   |   |  |   _   ||       ||   |  | ||    _  |
-# |_|  |__||_______|  |___|  |__| |__||_______||___|  |_||___| |_|
+# -----------------------------------------------------------------------
+
+
+
+
+
+# -----------------------------------------------------------------------
+# Network Section
+# -----------------------------------------------------------------------
 
 def serverStartupChecks():
     print ("Server Startup Checks")
@@ -207,7 +215,6 @@ def printWelcomeMessage():
     print("ST2411 Python and C Sales Summary Server")
     print("\n")
 
-# Network Section
 def handler(con):
     while True:
         buf = con.recv(1500) # buf is of the type of byte
@@ -231,8 +238,9 @@ def handler(con):
     con.close() #exit from the loop when client sent q or x
     return buf.decode()
 
-
 # Server Runtime Code
+printCurrentTimeStamp()
+print("\n")
 printWelcomeMessage()
 
 # Check Server Environment
@@ -250,18 +258,4 @@ if serverStartupChecks():
     serversocket.close()
 
 print("Stopping Server\n")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+printCurrentTimeStamp()
